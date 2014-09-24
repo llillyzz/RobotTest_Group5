@@ -1,0 +1,95 @@
+#include <popxt.h>
+int C,L,L1,R,R1,ref=500;
+
+void setup(){
+  pinMode(3,OUTPUT);
+  pinMode(5,OUTPUT);
+  pinMode(6,OUTPUT);
+  pinMode(9,OUTPUT);
+}
+void Forward(int speed){
+  analogWrite(3,speed);
+  digitalWrite(5,LOW);
+  analogWrite(6,speed);
+  digitalWrite(9,LOW);
+}
+void Spin_Left(int speed){
+  analogWrite(5,speed);
+  digitalWrite(3,LOW);
+  analogWrite(6,speed);
+  digitalWrite(9,LOW);
+}
+void Spin_Right(int speed){
+  analogWrite(3,speed);
+  digitalWrite(5,LOW);
+  analogWrite(9,speed);
+  digitalWrite(6,LOW);
+}
+
+void sleep (int speed){
+  analogWrite(3,LOW);
+  digitalWrite(5,LOW);
+  analogWrite(6,LOW);
+  digitalWrite(9,LOW);
+}
+void awake (int speed)
+{
+  analogWrite(3,speed);
+  digitalWrite(5,LOW);
+  analogWrite(6,speed);
+  digitalWrite(9,LOW);
+}
+void loop ()
+{
+  C =analogRead(2);
+  L =analogRead(3);
+  L1 =analogRead(7);
+  R =analogRead(6);
+  R1 =analogRead(1);
+  X =analogRead(4);   
+
+  if((C<ref)&&(L>ref)&&(R>ref))//???????
+  {
+    Forward(250);
+  }
+    
+    else if((L<ref)&&(C<ref)&&(R<ref)&&(L1<ref)&&(R1<ref)){
+    Forward(100);
+    C =analogRead(2);
+    L =analogRead(3);
+    L1 =analogRead(7);
+    R =analogRead(6);
+    R1 =analogRead(1);
+    X =analogRead(4);
+    
+    if(C>800)
+    {
+      Spin_Right(100);
+    }
+    }
+    else if((L1<ref)&&(L<ref)&&(C<ref)&&(R>ref)){//???????
+    Spin_Left(150);
+    delay(100);}
+    else if((L<ref)&&(R>ref)&&(C<ref)&&(L1>ref)){//????????
+    Spin_Left(120);
+    delay(100);}
+    else if((R1<ref)&&(R<ref)&&(C<ref)&&(L>ref)){//??????
+    Spin_Right(150);
+    delay(100);}
+    else if((R<ref)&&(L>ref)&&(C<ref)&&(R1>ref)){//???????
+    Spin_Right(120);
+    delay(100);}
+    else if(R<ref)
+    Spin_Right(120);
+    else if(L<ref)
+    Spin_Left(120);
+    else if(R1<ref)
+    Spin_Right(120);
+    else if(L1<ref)
+    Spin_Left(120);
+    else if((R<ref)&&(R1<ref))
+    Spin_Right(120);
+    else if((L<ref)&&(L1<ref))
+    Spin_Left(120);
+  
+}
